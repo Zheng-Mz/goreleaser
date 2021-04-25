@@ -3,8 +3,8 @@ name: Go
 on:
   push:
     branches: [ master, zmz ]
-#    tags:
-#      - '*'
+    tags:
+      - '*'
 #  pull_request:
 #    branches: [ master ]
 
