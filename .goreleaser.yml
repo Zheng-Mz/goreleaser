@@ -7,12 +7,24 @@ before:
     # you may remove this if you don't need go generate
     - go generate ./...
 builds:
-  - env:
-      - CGO_ENABLED=0
+  - id: "Test-goreleaser"
+    binary: Test-goreleaser
+    env:
+    - CGO_ENABLED=0
+    flags:
+    - -tags=release
     goos:
       - linux
-      - windows
-      - darwin
+     # - windows
+     #- darwin
+    goarch:
+    - amd64
+    ldflags:
+    - -s -w
+    - -X 'main.version={{.Version}}'
+    - -X 'main.commit={{.Commit}}'
+    - -X 'main.date={{.Date}}'
+    - -X 'main.builtBy=goreleaser'
 archives:
   - replacements:
       darwin: Darwin
@@ -20,6 +32,10 @@ archives:
       windows: Windows
       386: i386
       amd64: x86_64
+    format: binary
+    # Contains only binaries.
+    files:
+    - none*
 checksum:
   name_template: 'checksums.txt'
 snapshot:
